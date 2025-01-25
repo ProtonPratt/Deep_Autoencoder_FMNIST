@@ -1,8 +1,103 @@
-# Deep AutoEncoder using CNNs, MLPs, PCA
+# Assignment 4 Report
 ### by `Pratyush Jena`
 
-## Dataset Preprocessing
+# Summary
+## 1. Dataset and Preprocessing
+- Used a Double MNIST dataset containing images with multiple digits
+- Implemented data loading and preprocessing functions
+- Created a custom `MultiMNISTDataset` class for handling multi-digit images
+- Implemented one-hot encoding for labels
 
+**Key Points:**
+- Dataset split into train (70%), validation (10%), and test (20%)
+- Images preprocessed to grayscale format
+- Labels encoded as one-hot vectors with padding for variable length sequences
+- Custom dataset class handles both single and multiple digit images effectively
+
+## 2. CNN Classification Tasks
+### 2.1 Basic CNN Implementation
+- Developed `DigitCountCNN` class for both classification and regression tasks
+- Implemented convolutional layers, pooling, and fully connected layers
+- Added dropout for regularization
+
+**Key Points:**
+- Architecture includes 3 convolutional layers with increasing filter sizes (32, 64, 128)
+- MaxPooling used for dimensionality reduction
+- Dropout rate of 0.5 applied for regularization
+- Flexible architecture supporting both classification and regression tasks
+
+### 2.2 Hyperparameter Tuning
+- Tested various configurations including:
+  - Different learning rates (0.001 - 0.05)
+  - Dropout rates (0.0 - 0.5)
+  - Optimizers (SGD, Adam, RMSprop)
+- Tracked and plotted training/validation losses
+
+**Key Points:**
+- Adam optimizer generally performed better than SGD and RMSprop
+- Optimal learning rate found to be 0.001
+- Higher dropout rates (0.5) showed better regularization
+- Early stopping implemented to prevent overfitting
+
+## 3. Multi-Label Classification
+- Implemented `MultiLabelCNNVariable` for handling variable number of digits
+- Architecture includes feature extraction layers, shared fully connected layers
+- Separate classifiers for each digit position
+- Presence detectors for each position
+
+**Key Points:**
+- Best configuration: lr=0.001, dropout=0.5, optimizer=Adam
+- Achieved modest performance metrics:
+  - Exact Match Accuracy: ~0.0004 (Train)
+  - Hamming Accuracy: ~0.0855 (Train)
+- Model showed signs of overfitting despite regularization
+
+## 4. Autoencoder Implementation
+### 4.1 CNN Autoencoder
+- Implemented encoder-decoder architecture
+- Tracked reconstruction quality over training epochs
+- Visualized latent space representations
+- Analyzed cluster separation
+
+**Key Points:**
+- Encoder reduces dimensionality to 4x7x7 latent space
+- Decoder successfully reconstructs original image dimensions
+- Clear separation observed in latent space visualization
+- Training loss converged after ~15 epochs
+
+### 4.2 Alternative Approaches
+1. MLP Autoencoder
+   **Key Points:**
+   - Simpler architecture but higher reconstruction loss
+   - Test loss: 0.014840 (vs CNN's 0.007095)
+   - Less effective at preserving spatial relationships
+
+2. PCA Autoencoder
+   **Key Points:**
+   - Optimal number of components: 32
+   - Competitive reconstruction quality
+   - More computationally efficient than neural approaches
+
+## 5. KNN Classification
+**Key Results:**
+- Raw data performance:
+  - Accuracy: 80.64%
+  - Macro Precision: 80.95%
+  - Macro Recall: 80.61%
+
+- Feature representation comparisons:
+  1. Raw data: 80.64% accuracy
+  2. CNN latent space: 9.67% accuracy
+  3. PCA features: 84.18% accuracy (Best)
+  4. MLP autoencoder features: 75.78% accuracy
+
+**Key Insights:**
+- PCA features provided best classification performance
+- CNN latent space performed poorly for classification
+- MLP features showed competitive but inferior results
+- Raw data performed surprisingly well
+
+## Dataset Preprocessing
 - The dataset is present in `./data/interim/double_mnist`
 
 - A load mnist data() that extracts images from the
