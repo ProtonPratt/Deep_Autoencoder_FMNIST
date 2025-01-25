@@ -1,4 +1,4 @@
-# Assignment 4 Report
+# Deep AutoEncoder using CNNs, MLPs, PCA
 ### by `Pratyush Jena`
 
 ## Dataset Preprocessing
